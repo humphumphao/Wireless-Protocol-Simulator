@@ -1,79 +1,249 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Wireless-protocol-simulator : " />
+<head>
+<title>Wireless Network Protocol Simulator</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<link rel="stylesheet" href="http://flip.hr/css/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.2.js'></script>
 
-    <title>Wireless-protocol-simulator</title>
-  </head>
+<script src="js/canvas.js"></script>
+<script src="js/nodeColor.js"></script>
 
-  <body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/humphumphao/Wireless-Protocol-Simulator">View on GitHub</a>
+<script src="js/dsdvRoutingAnimation.js"></script>
+<script src="js/dsrRoutingAnimation.js"></script>
+<script src="js/dsrRoutingRREP.js"></script>
+<script src="js/olsrRoutingAnimation.js"></script>
+<script src="js/cgsrRoutingAnimation.js"></script>
+<script src="js/aodvRoutingAnimation.js"></script>
+<!--<script src="js/larRoutingAnimation.js"></script>-->
+<script src="js/aodvRoutingRREP.js"></script>
+<script src="js/larRoutingRREP.js"></script>
+<script src="js/showDsdv.js"></script>
+<script src="js/showDsr.js"></script>
+<script src="js/showAodv.js"></script>
+<script src="js/showCgsr.js"></script>
+<script src="js/showOlsr.js"></script>
+<script src="js/showTable.js"></script>
+<!--<script src="js/showLar.js"></script>-->
+<!--<script src="js/allRoutingAnimation.js"></script>-->
+<script src="js/routingDsdv.js"></script>
 
-          <h1 id="project_title">Wireless-protocol-simulator</h1>
-          <h2 id="project_tagline"></h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/humphumphao/Wireless-Protocol-Simulator/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/humphumphao/Wireless-Protocol-Simulator/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+</head>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<body BGCOLOR="white">
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<table border="2" height ="0px" BGCOLOR="goldenrod" class="table table-condensed">
+<tr>
+<th colspan="3" BGCOLOR="LightYellow">Situational Wireless Network Protocol Simulator</th>
+</tr>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<tr BGCOLOR="LightYellow"  valign="top">
+<th rowspan="2" id="routingTable" width="350px">
+<!--<canvas id="tableCanvas" width="120px" height="615px"
+style="border:1px solid #000000;">-->
+<table border = '1' valign = 'middle' >
+<tr><tr colspan="3">Routing Table - Node X</tr><td>Destn</td><td>Next Node</td><td>Dist</td></tr></table>
+</th>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<td  rowspan="1" width="850px" BGCOLOR="white" >
+<canvas align="middle" id="myCanvas" width="800px" height="500px" style="border:0px solid #000000;">
+</canvas>
+</td>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<script>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+function showMessage()
+{
+	if(document.getElementById("dsdv").checked){
+		showDsdv();
+	}
+	else if(document.getElementById("dsr").checked){
+		showDsr();
+	}
+	else if(document.getElementById("aodv").checked){
+		showAodv();
+	}
+	/*else if(document.getElementById("lar").checked){
+		showLar();
+	}*/
+	else if(document.getElementById("olsr").checked){
+		showOlsr();
+	}
+	else if(document.getElementById("cgsr").checked){
+		showCgsr();
+	}
+}
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+function clear_canvas()
+{
+var c=document.getElementById("myCanvas");
+var context=c.getContext("2d");
+context.clearRect (0, 0, 745, 490);
+}
+</script>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<td valign="middle" rowspan="2" width="500px" BGCOLOR="LightYellow">
+<h4 align="middle">Protocol</h4>
+<form action="" >
+<input type="radio" name="protocol" id="dsdv" value="dsdv" onclick="showDsdv()">Destination Sequenced Distance Vector Routing<br><br>
+<input type="radio" name="protocol" id="dsr" value="dsr" onclick="showDsr()">Dynamic Source Routing<br><br>
+<input type="radio" name="protocol" id="aodv" value="aodv" onclick="showAodv()">Ad Hoc On-Demand Distance Vector Routing<br><br>
+<input type="radio" name="protocol" id="olsr" value="olsr" onclick="showOlsr()">Optimized Link State Routing<br><br>
+<input type="radio" name="protocol" id="cgsr" value="cgsr" onclick="showCgsr()">Cluster-Head Gateway Switch Routing<br><br>
+<!--<input type="radio" name="protocol" id="lar" value="lar" onclick="showLar()">Location-Aided Routing<br><br>-->
+</form>
+<h4 align="middle">Message</h4>
+<textarea id="message" name="message" rows="14" cols="100" align="middle" valign="middle" class="field span4" ></textarea></br>
+<a href="file:///C:/Users/Hao/Desktop/Wireless%20Protocol%20Simulator%20V4/interface.html">Create-Your-Own Wireless Network Simulator</a></br>
+<a href="file:///C:/Users/Hao/Desktop/Random%20Wireless%20Protocol%20Simulator/mobile.html">Random Generation Wireless Network Protocol Simulator</a>
+</td>
+</tr>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<tr height="100px" >
+<td valign="top" rowspan="2" align="middle" BGCOLOR="LightYellow">
+<table>	
+<tr>
+<td>
+<table border="0" >
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<tr><td align="right">Source Node:</td><td><input type="text" id="source" name="source" style="width: 20%; padding-left:2px;" onchange="showMessage()" disabled></td></tr>
+<tr><td align="right">Destination Node:</td><td><input align="left" type="text" id="destination" name="destination" style="width: 20%; padding-left:2px;" onchange="showMessage()" disabled></td></tr>
+<tr><td align="right">Cache Node:</td><td><input align="left" type="text" id="cache" name="cache" style="width: 20%; padding-left:2px;" onchange="showMessage()" disabled></td></tr>
+</table>
+</td>
+<td>
+<table align="middle" border="0">
+<tr><td  align="left" width="110px"><input type="radio" name="broken" id="radioBrokenNode" onclick="brokenNode()" disabled>Broken Node:</td>
+<td><input type="text" id="brokenNode" name="brokenNode" style="width: 20px; padding-left:2px;" onchange="showMessage()" disabled></td></tr>
+<tr><td  align="left"><input type="radio" name="broken" id="radioBrokenLink" onclick="brokenLink()" disabled >Broken Link:</td>
+<td><input align="right" type="text" id="brokenLink1" name="brokenLink1" style="width: 20px; padding-left:2px;" disabled> &
+<input align="right" type="text" id="brokenLink2" name="brokenLink2" style="width: 20px; padding-left:2px;" onchange="showMessage()" disabled></td></tr>
+<tr><td align="center" colspan="3"><input type="button" value="Reset" onclick="reset()">
+<input type="button" id="showRouting" value="Show Routing" onclick="routingAnimation()"disabled>
+<input type="button" id="showRREP" value="Show RREP" onclick="routingRREP()" disabled></td></tr>
+</table>
+<!--<tr><td><canvas id="nodeCanvas" width="500" height="25" style="border:1px solid #000000;"></canvas></td></tr>-->
+</td>
+</tr>
+</table>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Wireless-protocol-simulator maintained by <a href="https://github.com/humphumphao">humphumphao</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+<script>//radio button broken node and broken link
 
-    
+function brokenNode(){
+document.getElementById("brokenNode").disabled = false;
+document.getElementById("brokenLink1").disabled = true;
+document.getElementById("brokenLink2").disabled = true;
+document.getElementById("brokenLink1").value="";
+document.getElementById("brokenLink2").value="";
 
-  </body>
+showMessage();
+}
+
+function brokenLink(){
+
+document.getElementById("brokenNode").disabled = true;
+document.getElementById("brokenLink1").disabled = false;
+document.getElementById("brokenLink2").disabled = false;
+document.getElementById("brokenNode").value="";
+
+showMessage();
+}
+
+function reset(){
+document.getElementById("brokenNode").disabled = true;
+document.getElementById("brokenLink1").disabled = true;
+document.getElementById("brokenLink2").disabled = true;
+document.getElementById("radioBrokenNode").checked = false;
+document.getElementById("radioBrokenLink").checked = false;
+document.getElementById("brokenNode").value="";
+document.getElementById("brokenLink1").value="";
+document.getElementById("brokenLink2").value="";
+document.getElementById("source").value="";
+document.getElementById("destination").value="";
+message.value="Please enter some values"
+showMessage();
+}
+
+function routingAnimation(){
+
+	if(document.getElementById("dsdv").checked){
+		dsdvRoutingAnimation();
+	}
+	else if(document.getElementById("dsr").checked){
+		dsrRoutingAnimation();
+	}
+	else if(document.getElementById("aodv").checked){
+		aodvRoutingAnimation();
+	}
+	/*else if(document.getElementById("lar").checked){
+		larRoutingAnimation();
+	}*/
+	else if(document.getElementById("olsr").checked){
+		olsrRoutingAnimation();
+	}
+	else if(document.getElementById("cgsr").checked){
+		cgsrRoutingAnimation();
+	}
+}
+
+function routingRREP(){
+
+	if(document.getElementById("dsr").checked){
+		dsrRoutingRREP();
+	}
+	else if(document.getElementById("aodv").checked){
+		aodvRoutingRREP();
+	}
+	/*else if(document.getElementById("lar").checked){
+		larRoutingRREP();
+	}*/
+}
+
+</script>
+
+
+</td>
+</tr>
+
+
+</table>
+
+<script>//show a mouse's coordinates in the nodeCanvas
+	
+		  
+		  var canvas = document.getElementById('myCanvas');
+		  var context = canvas.getContext('2d');
+
+		  canvas.addEventListener('mousemove', function(evt) {
+			var mousePos = getMousePos(canvas, evt);
+			var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+			writeMessage(document.getElementById('nodeCanvas'), message);
+		  }, false);
+		  
+	function writeMessage(canvas, message) {
+        var context = canvas.getContext('2d');
+        context.clearRect(0, 0, 999, 25);
+        context.font = '12pt Calibri';
+        context.fillStyle = 'red';
+        context.fillText(message, 0, 20);
+      }
+		        function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
+      }
+	 </script>
+
+</body>
 </html>
