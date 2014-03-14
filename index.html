@@ -88,6 +88,14 @@ var c=document.getElementById("myCanvas");
 var context=c.getContext("2d");
 context.clearRect (0, 0, 745, 490);
 }
+
+function instruction(){
+
+message.value="Step 1: Choose a protocol\nStep 2: Insert values\nStep 3: Click 'Show Routing' to see animation or 'Show RREP' to see RREP packet movements.\n\nHave Fun =)"
+
+
+}
+
 </script>
 
 <td valign="middle" rowspan="2" width="500px" BGCOLOR="LightYellow">
@@ -127,6 +135,7 @@ context.clearRect (0, 0, 745, 490);
 <td><input align="right" type="text" id="brokenLink1" name="brokenLink1" style="width: 20px; padding-left:2px;" disabled> &
 <input align="right" type="text" id="brokenLink2" name="brokenLink2" style="width: 20px; padding-left:2px;" onchange="showMessage()" disabled></td></tr>
 <tr><td align="center" colspan="3"><input type="button" value="Reset" onclick="reset()">
+<input type="button" id="Instruction" value="Instruction" onclick="instruction()">
 <input type="button" id="showRouting" value="Show Routing" onclick="routingAnimation()"disabled>
 <input type="button" id="showRREP" value="Show RREP" onclick="routingRREP()" disabled></td></tr>
 </table>
